@@ -46,7 +46,8 @@ const domains = {
   whatsgabycooking: require("../scrapers/WhatsGabyCookingScraper"),
   woolworths: require("../scrapers/WoolworthsScraper"),
   yummly: require("../scrapers/YummlyScraper"),
-  jamieoliver: require("../scrapers/JamieOliverScraper")
+  jamieoliver: require("../scrapers/JamieOliverScraper"),
+  tamingtwins: require("../scrapers/TamingTwinsScraper")
 };
 
 /**
@@ -57,6 +58,7 @@ class ScraperFactory {
     let parse = parseDomain(url);
     if (parse) {
       let domain = parse.domain;
+      console.log(domain);
       if (domains[domain] !== undefined) {
         return new domains[domain](url);
       } else {
