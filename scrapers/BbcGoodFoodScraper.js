@@ -15,10 +15,18 @@ class BbcGoodFoodScraper extends BaseScraper {
     this.defaultSetImage($);
     this.defaultSetDescription($);
     const { ingredients, instructions, time } = this.recipe;
-    this.recipe.name = $("meta[name='og:title']").attr("content");
 
-    $(".recipe__ingredients")
-      .find("li")
+
+    //test parameters 
+    //this.recipe.name = "test";
+    //ingredients.push("test");
+    //instructions.push("test");
+
+    this.recipe.name = $("h1")
+    .text().replace(/\s*{[^}]*}\s*/g, '');
+    
+    
+    $(".ingredients-list__item")
       .each((i, el) => {
         ingredients.push(
           $(el)
@@ -27,30 +35,13 @@ class BbcGoodFoodScraper extends BaseScraper {
         );
       });
 
-    $(".recipe__method-steps")
+      
+    $(".method-steps__list-item")
       .find("p")
       .each((i, el) => {
         instructions.push($(el).text());
       });
-
-    $(".cook-and-prep-time")
-      .find(".list-item")
-      .each((i, el) => {
-        const text = $(el).text();
-        if (text.includes("Prep")) {
-          time.prep = $(el)
-            .find("time")
-            .text();
-        } else if (text.includes("Cook")) {
-          time.cook = $(el)
-            .find("time")
-            .text();
-        }
-      });
-
-    this.recipe.servings = $(".post-header__servings .icon-with-text__children")
-      .text()
-      .replace("Makes ", "");
+      
   }
 }
 
