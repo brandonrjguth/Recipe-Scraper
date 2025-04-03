@@ -49,7 +49,8 @@ const domains = {
   jamieoliver: require("../scrapers/JamieOliverScraper"),
   tamingtwins: require("../scrapers/TamingTwinsScraper"),
   chefjonwatts: require("../scrapers/ChefJonWattsScraper"),
-  eatingonadime: require("../scrapers/EatingOnADimeScraper")
+  eatingonadime: require("../scrapers/EatingOnADimeScraper"),
+  inspiredtaste: require("../scrapers/InspiredTasteScraper")
 };
 
 /**
