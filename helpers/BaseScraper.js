@@ -43,7 +43,12 @@ class BaseScraper {
     this.recipe = new Recipe();
   }
 
-  defaultError() {
+  defaultError(validationErrors = []) {
+    if (validationErrors.length > 0) {
+      const errorDetails = validationErrors.map(err => 
+        `${err.property} ${err.message}`).join(', ');
+      throw new Error(`Recipe validation failed: ${errorDetails}`);
+    }
     throw new Error("No recipe found on page");
   }
 
@@ -117,7 +122,7 @@ class BaseScraper {
   validateRecipe() {
     let res = validate(this.recipe, recipeSchema);
     if (!res.valid) {
-      this.defaultError();
+      this.defaultError(res.errors);
     }
     return this.recipe;
   }
