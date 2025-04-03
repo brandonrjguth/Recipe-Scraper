@@ -2,96 +2,37 @@
 
 const BaseScraper = require("../helpers/BaseScraper");
 
+function titleCase(str) {
+    return str.toLowerCase().replace(/(^|\s)\S/g, (t) => t.toUpperCase());
+  }
+
+/**
+
+ * @extends BaseScraper
+ */
 class AllRecipesScraper extends BaseScraper {
   constructor(url) {
-    super(url, "allrecipes.com/recipe");
-  }
-
-  newScrape($) {
-    this.defaultSetDescription($);
-    this.recipe.name = this.recipe.name.replace(/\s\s+/g, "");
-    const { ingredients, instructions, time } = this.recipe;
-    $(".recipe-meta-item").each((i, el) => {
-      const title = $(el)
-        .children(".recipe-meta-item-header")
-        .text()
-        .replace(/\s*:|\s+(?=\s*)/g, "");
-      const value = $(el)
-        .children(".recipe-meta-item-body")
-        .text()
-        .replace(/\s\s+/g, "");
-      switch (title) {
-        case "prep":
-          time.prep = value;
-          break;
-        case "cook":
-          time.cook = value;
-          break;
-        case "total":
-          time.total = value;
-          break;
-        case "additional":
-          time.inactive = value;
-          break;
-        case "Servings":
-          this.recipe.servings = value.replace(/\n/g, " ").trim();
-          break;
-        default:
-          break;
-      }
-    });
-
-    $(".ingredients-item").each((i, el) => {
-      const ingredient = $(el)
-        .text()
-        .replace(/\s\s+/g, " ")
-        .trim();
-      ingredients.push(ingredient);
-    });
-
-    $($(".instructions-section-item").find("p")).each((i, el) => {
-      const instruction = $(el).text();
-      instructions.push(instruction);
-    });
-  }
-
-  oldScrape($) {
-    this.defaultSetDescription($);
-    const { ingredients, instructions, time } = this.recipe;
-    $("#polaris-app label").each((i, el) => {
-      const item = $(el)
-        .text()
-        .replace(/\s\s+/g, "");
-      if (item !== "Add all ingredients to list" && item !== "") {
-        ingredients.push(item);
-      }
-    });
-
-    $(".step").each((i, el) => {
-      const step = $(el)
-        .text()
-        .replace(/\s\s+/g, "");
-      if (step !== "") {
-        instructions.push(step);
-      }
-    });
-    time.prep = $("time[itemprop=prepTime]").text();
-    time.cook = $("time[itemprop=cookTime]").text();
-    time.ready = $("time[itemprop=totalTime]").text();
-    this.recipe.servings = $("#metaRecipeServings")
-      .attr("content")
-      .replace(/\n/g, " ")
-      .trim();
+    super(url, "allrecipes.com/");
   }
 
   scrape($) {
     this.defaultSetImage($);
-    const { ingredients, instructions, time } = this.recipe;
-    if ((this.recipe.name = $(".intro").text())) {
-      this.newScrape($);
-    } else if ((this.recipe.name = $("#recipe-main-content").text())) {
-      this.oldScrape($);
-    }
+    this.defaultSetDescription($);
+    const { ingredients, instructions, tags, time } = this.recipe;
+    this.recipe.name = titleCase($("h1")
+      .text().replace(/\s*{[^}]*}\s*/g, ''));
+
+      //instructions.push("first")
+      $(".mm-recipes-structured-ingredients__list-item p").each((i, el) => {
+        ingredients.push($(el).text().trim());
+      });
+
+      $(".mntl-sc-block-group--LI .mntl-sc-block-html").each((i, el) => {
+        const text = $(el).text().trim();
+        console.log(text);
+        instructions.push(text);
+      });
+      
   }
 }
 
