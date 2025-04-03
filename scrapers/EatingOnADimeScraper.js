@@ -10,9 +10,9 @@ function titleCase(str) {
  * Class for scraping cookieandkate.com
  * @extends BaseScraper
  */
-class TamingTwinsScraper extends BaseScraper {
+class EatingOnADimeScraper extends BaseScraper {
   constructor(url) {
-    super(url, "tamingtwins.com/");
+    super(url, "eatingonadime.com/");
   }
 
   scrape($) {
@@ -21,6 +21,13 @@ class TamingTwinsScraper extends BaseScraper {
     const { ingredients, instructions, tags, time } = this.recipe;
     this.recipe.name = titleCase($("h1")
       .text().replace(/\s*{[^}]*}\s*/g, ''));
+
+
+    /*$(".wprm-recipe-ingredient")
+      .each((i, el) => {
+        ingredients.push($(el).text());
+      });
+*/
 
     $(".wprm-recipe-ingredient")
       .each((i, el) => {
@@ -40,4 +47,4 @@ class TamingTwinsScraper extends BaseScraper {
   }
 }
 
-module.exports = TamingTwinsScraper;
+module.exports = EatingOnADimeScraper;

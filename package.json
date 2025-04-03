@@ -2,7 +2,14 @@
   "name": "@brandonrjguth/recipe-scraper",
   "version": "2.1.1",
   "description": "A JS package for scraping recipes from the web.",
-  "author": "Justin Adkins <jadkins1019@gmail.com>",
+  "author": "Brandon <brandonrjguthrie@gmail.com>",
+  "contributors": [
+  {
+    "name": "Justin Adkins",
+    "email": "jadkins1019@gmail.com",
+    "url": "https://github.com/jadkins89/Recipe-Scraper"
+  }
+  ],
   "license": "MIT",
   "keywords": [
     "recipes",
@@ -25,12 +32,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jadkins89/Recipe-Scraper.git"
+    "url": "git+https://github.com/brandonrjguth/Recipe-Scraper.git"
   },
   "bugs": {
-    "url": "https://github.com/jadkins89/Recipe-Scraper/issues"
+    "url": "https://github.com/brandonrjguth/Recipe-Scraper/issues"
   },
-  "homepage": "https://github.com/jadkins89/Recipe-Scraper#readme",
+  "homepage": "https://github.com/brandonrjguth/Recipe-Scraper#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
     "jsonschema": "^1.4.0",
