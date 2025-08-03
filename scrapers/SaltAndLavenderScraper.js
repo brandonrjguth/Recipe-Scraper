@@ -32,7 +32,7 @@ class SaltAndLavenderScraper extends BaseScraper {
     $(".wprm-recipe-ingredient")
       .each((i, el) => {
         const ingredientText = $(el)
-          .find(".wprm-recipe-ingredient-amount, .wprm-recipe-ingredient-name, .wprm-recipe-ingredient-notes")
+          .find(".wprm-recipe-ingredient-amount, .wprm-recipe-ingredient-unit, .wprm-recipe-ingredient-name, .wprm-recipe-ingredient-notes")
           .map((_, span) => $(span).text())
           .get()
           .join(" ");
