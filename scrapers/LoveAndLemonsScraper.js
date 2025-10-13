@@ -6,27 +6,26 @@ const BaseScraper = require("../helpers/BaseScraper");
  * Class for scraping loveandlemons.com
  * @extends BaseScraper
  */
-class LoveAndLemonsScraper extends BaseScraper {
+class LoveAndLemonsBroccoliCheddarScraper extends BaseScraper {
   constructor(url) {
     super(url, "loveandlemons.com/");
   }
 
   scrape($) {
-    this.defaultSetImage($, $(".entry-content img").first().attr("src"));
-    this.defaultSetDescription($, $(".entry-content p").first().text());
+    this.recipe.name = $("h1.entry-title").text().trim();
+    this.defaultSetDescription($, $(".entry-content > p").first().text().trim());
+    this.defaultSetImage($, $(".post-thumbnail img").attr("src"));
+
     const { ingredients, instructions } = this.recipe;
-    this.recipe.name = $(".entry-content h1, .entry-content h2").first().text();
 
-    $(".wprm-recipe-ingredient, .entry-content .wprm-recipe-ingredients-list li, .entry-content .ingredients li")
-      .each((i, el) => {
-        ingredients.push($(el).text());
-      });
+    $(".wprm-recipe-ingredient").each((i, el) => {
+      ingredients.push($(el).text().trim());
+    });
 
-    $(".wprm-recipe-instruction-text, .entry-content .wprm-recipe-instructions-list li, .entry-content .instructions li")
-      .each((i, el) => {
-        instructions.push($(el).text());
-      });
+    $(".wprm-recipe-instruction-text").each((i, el) => {
+      instructions.push($(el).text().trim());
+    });
   }
 }
 
-module.exports = LoveAndLemonsScraper;
+module.exports = LoveAndLemonsBroccoliCheddarScraper;
