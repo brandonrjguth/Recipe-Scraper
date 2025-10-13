@@ -12,71 +12,20 @@ class LoveAndLemonsScraper extends BaseScraper {
   }
 
   scrape($) {
-    // Name
-    const name = $("h1.entry-title").first().text().trim();
-    this.recipe.name = name;
+    this.defaultSetImage($, $(".entry-content img").first().attr("src"));
+    this.defaultSetDescription($, $(".entry-content p").first().text());
+    const { ingredients, instructions } = this.recipe;
+    this.recipe.name = $(".entry-content h1, .entry-content h2").first().text();
 
-    // Description
-    const description = $("div.wprm-recipe-summary, .entry-content > p").first().text().trim();
-    this.recipe.description = description;
-
-    // Image
-    const image =
-      $("div.wprm-recipe-image img").attr("src") ||
-      $("meta[property='og:image']").attr("content") ||
-      $("figure.wp-block-image img").first().attr("src");
-    this.defaultSetImage($, image);
-
-    // Ingredients
-    $(".wprm-recipe-ingredient, .wprm-recipe-ingredients ul li, .wprm-recipe-ingredient-name, .wprm-recipe-ingredient-text")
+    $(".wprm-recipe-ingredient, .entry-content .wprm-recipe-ingredients-list li, .entry-content .ingredients li")
       .each((i, el) => {
-        const ingredient = $(el).text().trim();
-        if (ingredient.length > 0) {
-          this.recipe.ingredients.push(ingredient);
-        }
+        ingredients.push($(el).text());
       });
-    // Fallback: Ingredients as listed in block inside entry-content or by strong or li under Ingredients section
-    if (this.recipe.ingredients.length === 0) {
-      $("h3:contains('Ingredients'), h2:contains('Ingredients')")
-        .nextAll("ul").first().find("li")
-        .each((i, el) => {
-          const ingredient = $(el).text().trim();
-          if (ingredient.length > 0) {
-            this.recipe.ingredients.push(ingredient);
-          }
-        });
-    }
 
-    // Instructions
-    $(".wprm-recipe-instruction-text, .wprm-recipe-instruction, .wprm-recipe-instructions ol li")
+    $(".wprm-recipe-instruction-text, .entry-content .wprm-recipe-instructions-list li, .entry-content .instructions li")
       .each((i, el) => {
-        const instruction = $(el).text().trim();
-        if (instruction.length > 0) {
-          this.recipe.instructions.push(instruction);
-        }
+        instructions.push($(el).text());
       });
-    // Fallback: Instructions under first "Instructions" heading, then all immediately following li elements
-    if (this.recipe.instructions.length === 0) {
-      $("h3:contains('Instructions'), h2:contains('Instructions')")
-        .nextAll("ol, ul").first().find("li")
-        .each((i, el) => {
-          const instruction = $(el).text().trim();
-          if (instruction.length > 0) {
-            this.recipe.instructions.push(instruction);
-          }
-        });
-
-      // If still nothing, parse instructions as paragraphs under instructions heading
-      if (this.recipe.instructions.length === 0) {
-        $("h3:contains('Instructions'), h2:contains('Instructions')")
-          .nextAll("p").each((i, el) => {
-            const p = $(el).text().trim();
-            if (p.length && !$(el).find("strong:contains('Note')").length) {
-              this.recipe.instructions.push(p);
-            }
-          });
-      }
-    }
   }
 }
 
