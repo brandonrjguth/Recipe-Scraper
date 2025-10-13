@@ -52,7 +52,8 @@ const domains = {
   eatingonadime: require("../scrapers/EatingOnADimeScraper"),
   saltandlavender: require("../scrapers/SaltAndLavenderScraper"),
   inspiredtaste: require("../scrapers/InspiredTasteScraper"),
-  foodiewithfamily: require("../scrapers/FoodieWithFamilyScraper")
+  foodiewithfamily: require("../scrapers/FoodieWithFamilyScraper"),
+  loveandlemons: require("../scrapers/LoveAndLemonsScraper")
 };
 
 /**
