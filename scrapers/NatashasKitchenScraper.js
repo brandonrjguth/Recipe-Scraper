@@ -12,41 +12,21 @@ class NatashasKitchenScraper extends BaseScraper {
   }
 
   scrape($) {
-    this.defaultSetImage($, $("figure.wp-block-image img").first().attr("src"));
-    this.defaultSetDescription($, $("div.entry-content p").first().text());
-    this.recipe.name = $("h1.entry-title").text().trim();
+    this.defaultSetImage($, $(".wp-block-image img").first().attr("src"));
+    this.defaultSetDescription($, $("wprm-recipe-summary").text().trim());
+    this.recipe.name = $(".wprm-recipe-name").text().trim();
 
     const { ingredients, instructions } = this.recipe;
 
-    // Ingredients
-    $("section.wprm-recipe-ingredients ul li, .wprm-recipe-ingredient, .wp-block-ingredients li, .wprm-ingredient").each((i, el) => {
-      // Fallback through matching selectors for various recipe layouts
-      let text = $(el).text().replace(/\s+/g, " ").trim();
-      if (text) ingredients.push(text);
+    $(".wprm-recipe-ingredient").each((i, el) => {
+      ingredients.push($(el).text().trim());
     });
 
-    // If above did not find (classic Natasha’s layout) try recipe box after heading "Ingredients"
-    if (ingredients.length === 0) {
-      $("h3:contains('Ingredients') + ul li").each((i, el) => {
-        let text = $(el).text().replace(/\s+/g, " ").trim();
-        if (text) ingredients.push(text);
-      });
-    }
-
-    // Instructions
-    $("section.wprm-recipe-instructions ul li, .wprm-recipe-instruction, .wp-block-instructions li, .wprm-instruction").each((i, el) => {
-      let text = $(el).text().replace(/\s+/g, " ").trim();
-      if (text) instructions.push(text);
+    $(".wprm-recipe-instruction-text").each((i, el) => {
+      instructions.push($(el).text().trim());
     });
-
-    // If above did not find (classic Natasha’s layout) try recipe box after heading "Instructions"
-    if (instructions.length === 0) {
-      $("h3:contains('Instructions')").nextUntil("h3, h2").find("li").each((i, el) => {
-        let text = $(el).text().replace(/\s+/g, " ").trim();
-        if (text) instructions.push(text);
-      });
     }
-  }
+  
 }
 
 module.exports = NatashasKitchenScraper;
