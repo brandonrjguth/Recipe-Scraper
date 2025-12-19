@@ -54,8 +54,8 @@ const domains = {
   inspiredtaste: require("../scrapers/InspiredTasteScraper"),
   foodiewithfamily: require("../scrapers/FoodieWithFamilyScraper"),
   loveandlemons: require("../scrapers/LoveAndLemonsScraper"),
+  greedyeats: require("../scrapers/GreedyEatsScraper"),
   natashaskitchen: require("../scrapers/NatashasKitchenScraper"),
-  greedyeats: require("../scrapers/GreedyEatsScraper")
 };
 
 /**

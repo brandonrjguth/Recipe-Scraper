@@ -10,9 +10,9 @@ function titleCase(str) {
  * Class for scraping cookieandkate.com
  * @extends BaseScraper
  */
-class TamingTwinsScraper extends BaseScraper {
+class GreedyEatsScraper extends BaseScraper {
   constructor(url) {
-    super(url, "tamingtwins.com/");
+    super(url, "greedyeats.com/");
   }
 
   scrape($) {
