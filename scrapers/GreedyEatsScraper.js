@@ -40,4 +40,4 @@ class TamingTwinsScraper extends BaseScraper {
   }
 }
 
-module.exports = TamingTwinsScraper;
+module.exports = GreedyEatsScraper;
