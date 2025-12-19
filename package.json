@@ -1,6 +1,6 @@
 {
   "name": "@brandonrjguth/recipe-scraper",
-  "version": "2.7.1",
+  "version": "2.8.0",
   "description": "A JS package for scraping recipes from the web.",
   "author": "Brandon <brandonrjguthrie@gmail.com>",
   "contributors": [
